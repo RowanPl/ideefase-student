@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ideefase PDF Generator</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div class="container">
+    <!-- Header -->
+    <div class="header">
+        <header class="text-center">
+            <h1 class="title">Ideefase PDF Generator</h1>
+            <p class="subtitle">Genereer een overzichtelijk ideefase PDF</p>
+        </header>
+    </div>
+
+    <!-- Form Section -->
+    <div class="form-section">
+        <form id="ideefaseForm" class="space-y-6">
+            <!-- Project Type -->
+            <div>
+                <label class="form-label">Project Type</label>
+                <div class="radio-group">
+                    <label class="radio-label">
+                        <input type="radio" name="projectType" value="Backend" checked>
+                        <span>Backend</span>
+                    </label>
+                    <label class="radio-label">
+                        <input type="radio" name="projectType" value="Frontend">
+                        <span>Frontend</span>
+                    </label>
+                    <label class="radio-label">
+                        <input type="radio" name="projectType" value="Fullstack">
+                        <span>Fullstack</span>
+                    </label>
+                </div>
+            </div>
+
+            <!-- Common Fields -->
+            <div>
+                <label for="projectName" class="form-label">Projectnaam</label>
+                <input type="text" id="projectName" class="form-input" placeholder="Bijv. E-commerce Website">
+            </div>
+            <div>
+                <label for="toelichting" class="form-label">Toelichting</label>
+                <textarea id="toelichting" class="form-textarea" rows="5" placeholder="Toelichting over het project"></textarea>
+            </div>
+            <div>
+                <label for="kernFunctionaliteiten" class="form-label">Kernfunctionaliteiten</label>
+                <textarea id="kernFunctionaliteiten" class="form-textarea" rows="5" placeholder="Elke functionaliteit op een nieuwe regel"></textarea>
+            </div>
+
+            <!-- Backend & Fullstack Fields -->
+            <div id="backendFields" class="hidden">
+                <div>
+                    <label for="entities" class="form-label">Entiteiten</label>
+                    <textarea id="entities" class="form-textarea" rows="5" placeholder="Elke entiteit op een nieuwe regel"></textarea>
+                </div>
+            </div>
+
+            <!-- Frontend Fields -->
+            <div id="frontendFields" class="hidden">
+                <div>
+                    <label class="form-label">Kies een backend</label>
+                    <select id="backendType" class="form-input">
+                        <option value="Novi's backend">Novi's backend</option>
+                        <option value="Eigen backend">Eigen backend</option>
+                        <option value="Firebase">Firebase</option>
+                    </select>
+                </div>
+                <div>
+                    <label for="otherAPIs" class="form-label">Welke andere API ga je gebruiken?</label>
+                    <textarea id="otherAPIs" class="form-textarea" rows="3" placeholder="Bijv. Google Maps API"></textarea>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <!-- Preview Section -->
+    <div class="preview-section">
+        <h2 class="preview-title">Preview</h2>
+        <div id="preview" class="preview-box">
+            <p class="preview-placeholder">Voer informatie in om een preview te genereren.</p>
+        </div>
+    </div>
+
+    <!-- Generate PDF Button -->
+    <div class="button-section">
+        <button id="generatePDF" class="btn-primary">Download PDF</button>
+    </div>
+</div>
+<script src="script.js"></script>
+</body>
+</html>
