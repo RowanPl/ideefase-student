@@ -1,0 +1,1 @@
+This project is a web application that allows users to generate a PDF document with project details. The application includes functionalities for user authentication, dynamic preview updates, and PDF generation based on the project type (Backend, Frontend, or Fullstack).
