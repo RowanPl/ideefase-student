@@ -130,6 +130,7 @@ body {
     font-weight: 600;
     font-size: 1rem;
     padding: 10px 20px;
+    margin-bottom: 10px;
     border: none;
     border-radius: 8px;
     cursor: pointer;
@@ -140,4 +141,44 @@ body {
 .btn-primary:hover {
     background: linear-gradient(to right, #4338ca, #6d28d9);
     transform: translateY(-2px);
+}
+.link{
+    text-decoration: none;
+    color: #4f46e5;
+    font-weight: 600;
+    /*font-size: 1rem;*/
+    /*margin-left: 10px;*/
+}
+
+.hidden {
+    display: none;
+}
+
+#modal {
+    z-index: 1000;
+}
+
+#modal .btn-primary {
+    display: inline-block;
+    margin: 0 auto;
+    text-align: center;
+}
+
+
+.label-subtitle {
+    font-size: 0.875rem;
+    color: #6b7280;
+    margin-bottom: 10px;
+}
+.btn-remove{
+    background: linear-gradient(to right, #ff0000, #f86464);
+    color: #ffffff;
+    font-weight: 600;
+    font-size: 1rem;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    transition: background 0.3s ease, transform 0.2s ease;
 }

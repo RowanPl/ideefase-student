@@ -10,6 +10,7 @@
 </head>
 <body>
 <div class="container">
+    <form id="ideefaseForm" class="space-y-6" onsubmit="return validateForm();">
     <!-- Header -->
     <div class="header">
         <header class="text-center">
@@ -18,12 +19,13 @@
         </header>
     </div>
 
-    <!-- Form Section -->
+        <!-- Form Section -->
     <div class="form-section">
-        <form id="ideefaseForm" class="space-y-6">
+
             <!-- Project Type -->
             <div>
                 <label class="form-label">Project Type</label>
+                <p class="label-subtitle">Welke eindopdracht ga je maken?</p>
                 <div class="radio-group">
                     <label class="radio-label">
                         <input type="radio" name="projectType" value="Backend" checked>
@@ -43,21 +45,38 @@
             <!-- Common Fields -->
             <div>
                 <label for="projectName" class="form-label">Projectnaam</label>
+                <p class="label-subtitle">Hier mag je je applicatie een naam geven.</p>
                 <input type="text" id="projectName" class="form-input" placeholder="Bijv. E-commerce Website">
             </div>
             <div>
                 <label for="toelichting" class="form-label">Toelichting</label>
-                <textarea id="toelichting" class="form-textarea" rows="5" placeholder="Toelichting over het project"></textarea>
+                <p class="label-subtitle">Wat is het fictieve probleem dat je wil oplossen met jouw applicatie (het doel).</p>
+                <textarea  id="toelichting" class="form-textarea" rows="5" placeholder="Toelichting over het project"></textarea>
             </div>
             <div>
-                <label for="kernFunctionaliteiten" class="form-label">Kernfunctionaliteiten</label>
-                <textarea id="kernFunctionaliteiten" class="form-textarea" rows="5" placeholder="Elke functionaliteit op een nieuwe regel"></textarea>
+                <label class="form-label">Kernfunctionaliteiten</label>
+                <div id="kernFunctionaliteitenContainer" class="space-y-2">
+                    <!-- Initial Fields -->
+                    <div class="functionaliteit-item">
+                        <input type="text" class="form-input kern-functionaliteit" placeholder="Functionaliteit 1" required>
+                    </div>
+                    <div class="functionaliteit-item">
+                        <input type="text" class="form-input kern-functionaliteit" placeholder="Functionaliteit 2" required>
+                    </div>
+                    <div class="functionaliteit-item">
+                        <input type="text" class="form-input kern-functionaliteit" placeholder="Functionaliteit 3" required>
+                    </div>
+                </div>
+                <button type="button" id="addKernFunctionaliteit" class="btn-primary mt-2">+</button>
             </div>
+
+
 
             <!-- Backend & Fullstack Fields -->
             <div id="backendFields" class="hidden">
                 <div>
                     <label for="entities" class="form-label">Entiteiten</label>
+                    <p class="label-subtitle">Wat zijn entiteiten in Java? Een entiteit vertegenwoordigt een object in de database en lijkt op iets zoals je het in de echte wereld ook hebt, zoals gebruikers, producten, adressen, bestellingen, hotelkamers, etc. Deze vertalen we dan naar entiteiten met specifieke eigenschappen, zoals een hotelkamer bijvoorbeeld altijd een kamernummer, aantal slaapplaatsen, of het een roken/niet-roken kamer is en een prijs per nacht. Dit kun je dan als volgt opschrijven: Room(roomNumber, capacity, smokingAllowed, pricePerNightPerPerson)</p>
                     <textarea id="entities" class="form-textarea" rows="5" placeholder="Elke entiteit op een nieuwe regel"></textarea>
                 </div>
             </div>
@@ -66,18 +85,21 @@
             <div id="frontendFields" class="hidden">
                 <div>
                     <label class="form-label">Kies een backend</label>
+
+                    <p class="label-subtitle">Wij faciliteren de <a class="link" target="_blank"  href="https://novi.datavortex.nl">Novi Educational Backend.</a> dit is een database waar je gebruikers kan opslaan. Meer informatie staat op de website. Je mag ook een database gebruiken van eerdere leerlijn of een firebase gebruikers database. Deze zijn lastiger om te configureren en je krijgt er niet een extra punt voor.  </p>
                     <select id="backendType" class="form-input">
-                        <option value="Novi's backend">Novi's backend</option>
-                        <option value="Eigen backend">Eigen backend</option>
+                        <option value="Novi's Educational backend">Novi's Educational backend</option>
+                        <option value="Eigen backend vanuit eerdere leerlijn">Eigen backend vanuit een eerdere leerlijn</option>
                         <option value="Firebase">Firebase</option>
                     </select>
                 </div>
                 <div>
                     <label for="otherAPIs" class="form-label">Welke andere API ga je gebruiken?</label>
-                    <textarea id="otherAPIs" class="form-textarea" rows="3" placeholder="Bijv. Google Maps API"></textarea>
+                    <p class="label-subtitle"> Op <a class="link" target="_blank" href="https://github.com/hogeschoolnovi/frontend-api-list">Github</a> staat een lijst met API's die je mag gebruiken. Wil je een andere API gebruiken dan mag dat ook. Het is van belang dat je de API naam + URL hier inlever. zodat wij kunnen kijken of de api toegankelijk genoeg is om te gebruiken.</p>
+                    <input id="otherAPIs" class="form-textarea" rows="3" placeholder="Bijv. PokeApi (https://pokeapi.co/docs/v2)" ></input>
                 </div>
             </div>
-        </form>
+
     </div>
 
     <!-- Preview Section -->
@@ -90,8 +112,9 @@
 
     <!-- Generate PDF Button -->
     <div class="button-section">
-        <button id="generatePDF" class="btn-primary">Download PDF</button>
+        <button type="submit" class="btn-primary">Download PDF</button>
     </div>
+    </form>
 </div>
 <script src="script.js"></script>
 </body>
