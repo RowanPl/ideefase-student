@@ -45,16 +45,20 @@ document.addEventListener("DOMContentLoaded", () => {
     const updatePreview = () => {
         const projectName = document.getElementById("project-name").value;
         const description = document.getElementById("description").value;
-        const coreFeatures = Array.from(document.querySelectorAll(".core-feature")).map(input => input.value).join(", ");
+        let coreFeatures = Array.from(document.querySelectorAll(".core-feature")).map(input => input.value);
         const entities = document.getElementById("entities")?.value || "";
         const backendType = document.getElementById("backend-type")?.value || "";
         const otherApis = document.getElementById("other-apis")?.value || "";
         const projectType = document.querySelector("input[name='project-type']:checked")?.value;
+
+
+        if (!coreFeatures.some(feature => feature.includes("inloggen") || feature.includes("registreren"))) {
+            coreFeatures.push("inloggen & registreren");
+        }
         preview.innerHTML = `
       <h3 class="text-lg font-semibold">Project Preview</h3>
       <p><strong>Naam van je applicatie:</strong> ${projectName || "N/A"}</p>
-      <p><strong>Toelichting:</strong> ${description || "N/A"}</p>
-      <p><strong>Kernfunctionaliteiten:</strong> ${coreFeatures || "N/A"}</p>
+      <p><strong>Toelichting:</strong>${description || "N/A"}</p>
       ${projectType === "Backend" || projectType === "Fullstack" ? `<p><strong>Entiteiten:</strong> ${entities}</p>` : ""}
       ${projectType === "Frontend" ? `<p><strong>Backend Keuze:</strong> ${backendType}</p>` : ""}
       ${projectType === "Frontend" ? `<p><strong>Gekozen REST API:</strong> ${otherApis}</p>` : ""}
@@ -119,8 +123,15 @@ document.addEventListener("DOMContentLoaded", () => {
         // Add project details
         addSection('Naam van de applicatie', form.elements['project-name'].value);
         addSection('Project omschrijving', form.elements['description'].value);
-        addSection('Kern functionaliteiten', Array.from(document.querySelectorAll(".core-feature")).map(input => input.value).join("\n"));
 
+        let coreFeatures = Array.from(document.querySelectorAll(".core-feature")).map(input => input.value);
+        if (!coreFeatures.some(feature => feature.includes("inloggen") || feature.includes("registreren"))) {
+            coreFeatures.push("inloggen & registreren");
+        }
+        coreFeatures = coreFeatures.join("\n");
+
+
+        addSection('Kernfunctionaliteiten', coreFeatures);
         // Conditionally add optional sections
         if (form.elements['project-type'].value === "Backend" || form.elements['project-type'].value === "Fullstack") {
             addSection('Entiteiten', form.elements['entities'].value, true);
