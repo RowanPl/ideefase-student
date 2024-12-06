@@ -3,107 +3,96 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ideefase PDF Generator</title>
+    <title>NOVI Ideefase PDF Generator</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
 </head>
-<body class="bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 min-h-screen p-4 md:p-8">
-<div class="max-w-5xl mx-auto">
-    <!-- Header -->
-    <div class="bg-white rounded-2xl shadow-xl p-6 mb-6">
-        <header class="text-center">
-            <h1 class="text-4xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 text-transparent bg-clip-text">
-                Ideefase PDF Generator
-            </h1>
-            <p class="text-gray-600 mt-2">Genereer een overzichtelijk ideefase PDF</p>
-        </header>
-    </div>
-
-    <!-- Form Section -->
-    <div class="bg-white rounded-2xl shadow-xl p-6 mb-6">
-        <form id="ideefaseForm" class="space-y-6">
-            <!-- Project Type -->
-            <div>
-                <label class="form-label">Project Type</label>
-                <div class="radio-group">
-                    <label class="radio-label">
-                        <input type="radio" name="projectType" value="Backend" checked>
-                        <span>Backend</span>
-                    </label>
-                    <label class="radio-label">
-                        <input type="radio" name="projectType" value="Frontend">
-                        <span>Frontend</span>
-                    </label>
-                    <label class="radio-label">
-                        <input type="radio" name="projectType" value="Fullstack">
-                        <span>Fullstack</span>
-                    </label>
-                </div>
-            </div>
-
-            <!-- Common Fields -->
-            <div>
-                <label for="projectName" class="form-label">Naam van je applicatie</label>
-                <input type="text" id="projectName" class="form-input" placeholder="Bijv. E-commerce Website">
-            </div>
-            <div>
-                <label for="toelichting" class="form-label">Toelichting</label>
-                <p> Geef een korte en duidelijke beschrijving van je project. Denk hierbij aan het doel, de aanpak, en wat je wilt bereiken.</p>
-                <textarea id="toelichting" class="form-textarea" rows="5" placeholder="toelichting over het project"></textarea>
-            </div>
-            <div>
-                <label for="kernFunctionaliteiten" class="form-label">Kernfunctionaliteiten</label>
-                <p> Beschrijf hier de belangrijkste functionaliteiten van jouw idee. Geef aan wat de applicatie moet doen, Je moet er nog minimaal 3 bij bedenken naast inloggen en registreren</p>
-                <textarea id="kernFunctionaliteiten" class="form-textarea" rows="5" placeholder="Kernfunctionaliteit 1: ..."></textarea>
-            </div>
-
-            <!-- Backend & Fullstack Fields -->
-            <div id="backendFields" class="hidden">
-                <div>
-                    <label for="entities" class="form-label">Entiteiten</label>
-                    <p class="form-hint">
-                    <strong>Wat zijn entiteiten in Java?</strong> Een entiteit vertegenwoordigt een object in de database, zoals een tabel, met velden (kolommen). Voorbeelden zijn `User`, `Product`, en `Order`. Het handigste is om hier zelf alvast over na te denken wat er bij een Order of Product moet komen, zet dit even tussen ( ) zodat wij nog even mee kunnen denken.
-                </p>
-                    <textarea id="entities" class="form-textarea" rows="5" placeholder="Bijv. Product(naam, prijs, etc..) , User(naam, wachtwoord, etc...)"></textarea>
-
-                </div>
-            </div>
-
-            <!-- Frontend Fields -->
-            <div id="frontendFields" class="hidden">
-                <p>In principe is het de bedoeling dat je gebruik maakt van de <a  href="https://novi.datavortex.nl">NOVI Educational Backend</a>. Wanneer je gebruik wil maken van een andere backend, is dit op eigen risico. </p>
-                <div>
-                    <label class="form-label">Kies een backend</label>
-                    <select id="backendType" class="form-input">
-                        <option value="Novi's backend" >NOVI Educational backend</option>
-                        <option value="own">Eigen Springboot REST-webapi (gemaakt tijdens de backend leerlijn)</option>
-                        <option value="firebase">Firebase document-database (let op: dit is vrij uitdagend)</option>
-                    </select>
-                </div>
-                <div>
-                    <label for="otherAPIs" class="form-label">Wat is de link naar de documentatie van de API ga je gebruiken als databron voor jouw applicatie?</label>
-                    <input id="otherAPIs" class="form-textarea" rows="3" placeholder="Bijv. Fake Store API (https://fakestoreapi.com/docs) " />
-                </div>
-            </div>
-        </form>
-    </div>
-
-    <!-- Preview Section -->
-    <div class="bg-white rounded-2xl shadow-xl p-6 mb-6">
-        <h2 class="text-xl font-semibold text-gray-800 mb-4">Preview</h2>
-        <div id="preview" class="p-4 bg-gray-50 rounded-lg">
-            <p class="text-gray-500">Voer informatie in om een preview te genereren.</p>
-        </div>
-    </div>
-
-    <!-- Generate PDF Button -->
-    <div class="text-center">
-        <button id="generatePDF" class="btn btn-primary">
-            Download PDF
-        </button>
-    </div>
+<body class="bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 min-h-screen p-4 md:p-8 max-w-5xl mx-auto">
+<!-- Header -->
+<div class="bg-white rounded-2xl shadow-xl p-6 mb-6">
+    <header class="text-center">
+        <h1 class="text-4xl font-bold bg-gradient-to-r from-red-100 to-purple-600 text-transparent bg-clip-text">
+            NOVI Ideefase PDF Generator
+        </h1>
+        <p class="text-gray-600 mt-2">Genereer een overzichtelijke PDF voor de ideefase van de eindopdracht</p>
+    </header>
 </div>
+
+<!-- Form Section -->
+<div class="bg-white rounded-2xl shadow-xl p-6 mb-6">
+    <form id="ideation-phase-form" class="space-y-6">
+        <!-- Project Type -->
+        <div>
+            <label for="project-type" class="form-label">Project Type</label>
+            <div class="radio-group">
+                <label class="radio-label">
+                    <input type="radio" name="project-type" value="Backend"> Backend
+                </label>
+                <label class="radio-label">
+                    <input type="radio" name="project-type" value="Frontend"> Frontend
+                </label>
+                <label class="radio-label">
+                    <input type="radio" name="project-type" value="Fullstack"> Fullstack
+                </label>
+            </div>
+        </div>
+
+        <!-- Common Fields -->
+        <div>
+            <label for="project-name" class="form-label">Naam van je applicatie</label>
+            <input id="project-name" class="form-input" type="text" placeholder="Naam van je applicatie">
+        </div>
+        <div>
+            <label for="description" class="form-label">Toelichting</label>
+            <textarea id="description" class="form-textarea" rows="5" placeholder="Toelichting over het project"></textarea>
+        </div>
+        <div>
+            <label for="core-features" class="form-label">Kernfunctionaliteiten</label>
+            <p> Beschrijf hier de belangrijkste functionaliteiten van jouw idee. Geef aan wat de applicatie moet doen, Je moet er nog minimaal 3 bij bedenken naast inloggen en registreren</p>
+            <div id="core-features-container">
+                <input class="core-feature form-textarea" rows="5" placeholder="Kernfunctionaliteit 1: ...">
+                <input class="core-feature form-textarea" rows="5" placeholder="Kernfunctionaliteit 2: ...">
+                <input class="core-feature form-textarea" rows="5" placeholder="Kernfunctionaliteit 3: ...">
+            </div>
+            <button type="button" id="add-core-feature" class="btn btn-secondary">Add More</button>
+        </div>
+
+        <!-- Backend & Fullstack Fields -->
+        <div id="backend-fields" class="hidden">
+            <div>
+                <label for="entities" class="form-label">Entiteiten</label>
+                <textarea id="entities" class="form-textarea" rows="5" placeholder="Entiteiten"></textarea>
+            </div>
+        </div>
+
+        <!-- Frontend Fields -->
+        <div id="frontend-fields" class="hidden">
+            <p>Vanuit NOVI adviseren we je de<a target="_blank" href="https://novi.datavortex.nl/" class="link"> NOVI Educational Backend</a> te gebruiken. Hierin kun je de gebruikersnaam, email, wachtwoord, en profielfoto in opslaan. Er is ook een extra tekstveld beschikbaar om eigen informatie in op te slaan. Als je een specifiek idee hebt waar je meer opslagmogelijkheden voor nodig hebt, heb je de optie om een eigen <a href="https://firebase.google.com/" target="_blank" class="link"> Firebase Backend </a> op te zetten. Maar let op: deze zijn lastiger om te configureren! Het kost extra tijd en je krijgt er geen extra punten voor. Indien je de Backend leerlijn bij NOVI hebt gevolgd is het ook toegestaan om jouw eigen gemaakte Spring Boot project als backend te gebruiken. </p>
+            <div>
+                <label for="backend-type" class="form-label">Backend Keuze</label>
+                <input id="backend-type" class="form-input" type="text" placeholder="Backend Keuze">
+            </div>
+            <div>
+                <label for="other-apis" class="form-label">Andere APIs</label>
+                <input id="other-apis" class="form-input" type="text" placeholder="Andere APIs">
+            </div>
+        </div>
+    </form>
+</div>
+
+<!-- Preview Section -->
+<section class="bg-white rounded-2xl shadow-xl p-6 mb-6">
+    <h2 class="text-xl font-semibold text-gray-800 mb-4">Preview</h2>
+    <div id="preview" class="p-4 bg-gray-50 rounded-lg">
+        <p class="text-gray-500">Voer informatie in om een preview te genereren.</p>
+    </div>
+</section>
+
+<!-- Generate PDF Button -->
+<button id="generate-pdf" class="btn btn-primary center">
+    Download PDF
+</button>
 
 <script src="script.js"></script>
 </body>

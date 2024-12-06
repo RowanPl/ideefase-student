@@ -1,156 +1,140 @@
-// DOM Elements
-const form = document.getElementById("ideefaseForm");
-const previewDiv = document.getElementById("preview");
-const generatePDFBtn = document.getElementById("generatePDF");
-const backendFields = document.getElementById("backendFields");
-const frontendFields = document.getElementById("frontendFields");
 
-// Event Listeners
-form.addEventListener("input", updatePreview);
-form.addEventListener("change", updatePreview); // Handles both text input and radio button changes
-generatePDFBtn.addEventListener("click", generatePDF);
-
-// Update Preview
-function updatePreview() {
-    const projectType = document.querySelector("input[name='projectType']:checked")?.value || "Geen projecttype opgegeven";
-    const projectName = document.getElementById("projectName").value || "Geen projectnaam opgegeven";
-    const toelichting = document.getElementById("toelichting").value || "Geen toelichting opgegeven";
-
-    // Ensure "Inloggen" and "Registreren" are always included
-    let kernFunctionaliteiten = "Inloggen & Registreren";
-    const userFunctionaliteiten = document.getElementById("kernFunctionaliteiten").value;
-    if (userFunctionaliteiten) {
-        kernFunctionaliteiten += `\n${userFunctionaliteiten}`;
-    }
-
-    let additionalFields = "";
-    let entities = "";
-
-    // Add Backend or Fullstack specific fields
-    if (projectType === "Backend" || projectType === "Fullstack") {
-        entities = document.getElementById("entities").value || "Geen entiteiten opgegeven";
-        const formattedEntities = entities.split('\n').map((item, index) => `${index + 1}. ${item}`).join('<br>');
-        additionalFields += `<p><strong>Entiteiten:</strong><br>${formattedEntities}</p>`;
-    }
-
-    // Add Frontend specific fields
-    if (projectType === "Frontend") {
-        const backendType = document.getElementById("backendType").value || "Geen backend geselecteerd";
-        const otherAPIs = document.getElementById("otherAPIs").value || "Geen API opgegeven";
-        additionalFields += `<p><strong>Gekozen backend:</strong> ${backendType}</p>
-                             <p><strong>Andere API's:</strong> ${otherAPIs}</p>`;
-    }
-
-    // Format Kernfunctionaliteiten with numbering
-    const formattedKernFunctionaliteiten = kernFunctionaliteiten.split('\n').map((item, index) => `${index + 1}. ${item}`).join('<br>');
-
-    // Update the preview dynamically
-    previewDiv.innerHTML = `
-        <h3 class="text-xl font-bold">${projectName}</h3>
-        <p><strong>Toelichting:</strong><br/> ${toelichting}</p>
-        <p><strong>Kernfunctionaliteiten:</strong><br>${formattedKernFunctionaliteiten}</p>
-        ${additionalFields}
-    `;
-
-    handleFieldVisibility(); // Ensure fields' visibility updates
-}
-
-// Handle Visibility of Fields Based on Project Type
-function handleFieldVisibility() {
-    const projectType = document.querySelector("input[name='projectType']:checked")?.value;
-
-    // Show/Hide Backend/Fullstack Fields
-    backendFields.classList.toggle("hidden", !(projectType === "Backend" || projectType === "Fullstack"));
-
-    // Show/Hide Frontend Fields
-    frontendFields.classList.toggle("hidden", projectType !== "Frontend");
-}
-function generatePDF() {
-    const { jsPDF } = window.jspdf;
-    const doc = new jsPDF();
-
-    // Retrieve form values
-    const projectType = document.querySelector("input[name='projectType']:checked")?.value || "Niet geselecteerd";
-    const projectName = document.getElementById("projectName").value || "Geen projectnaam opgegeven";
-    const toelichting = document.getElementById("toelichting").value || "Geen toelichting opgegeven";
-    // const kernFunctionaliteiten = document.getElementById("kernFunctionaliteiten").value || "Geen kernfunctionaliteiten opgegeven";
-    let kernFunctionaliteiten = "Inloggen & Registreren";
-    const userFunctionaliteiten = document.getElementById("kernFunctionaliteiten").value;
-    if (userFunctionaliteiten) {
-        kernFunctionaliteiten += `\n${userFunctionaliteiten}`;
-    }
-    // Setup title and document metadata
-    doc.setFont("helvetica", "bold");
-    doc.setFontSize(20);
-    doc.text("Project Voorstel", 105, 15, { align: "center" }); // Center-aligned title
+document.addEventListener("DOMContentLoaded", () => {
+    const form = document.getElementById("ideation-phase-form");
+    const projectTypeInputs = document.querySelectorAll("input[name='project-type']");
+    const backendFields = document.getElementById("backend-fields");
+    const frontendFields = document.getElementById("frontend-fields");
+    const preview = document.getElementById("preview");
+    const generatePdfButton = document.getElementById("generate-pdf");
+    const coreFeaturesContainer = document.getElementById("core-features-container");
+    const addCoreFeatureButton = document.getElementById("add-core-feature");
 
 
-    // Add Project Name and Type Section
-    doc.setFontSize(14);
-    doc.setFont("helvetica", "bold");
-    doc.text("Project Details", 10, 35);
-    doc.setFont("helvetica", "normal");
-    doc.setFontSize(12);
-    doc.text(`Projectnaam: ${projectName}`, 10, 45);
-    doc.text(`Projecttype: ${projectType}`, 10, 55);
-
-    // Add Toelichting Section
-    doc.setFontSize(14);
-    doc.setFont("helvetica", "bold");
-    doc.text("Toelichting", 10, 70);
-    doc.setFont("helvetica", "normal");
-    doc.setFontSize(12);
-    doc.text(doc.splitTextToSize(toelichting, 180), 10, 80);
-
-    // Add Kernfunctionaliteiten Section
-    doc.setFontSize(14);
-    doc.setFont("helvetica", "bold");
-    doc.text("Kernfunctionaliteiten", 10, 110);
-    doc.setFont("helvetica", "normal");
-    doc.setFontSize(12);
-    kernFunctionaliteiten.split("\n").forEach((item, index) => {
-        doc.text(`${index + 1}. ${item.trim()}`, 10, 120 + index * 10);
+    // Toggle fields based on project type
+    projectTypeInputs.forEach((input) => {
+        input.addEventListener("change", (e) => {
+            const selectedType = e.target.value;
+            backendFields.classList.toggle("hidden", selectedType !== "Backend" && selectedType !== "Fullstack");
+            frontendFields.classList.toggle("hidden", selectedType !== "Frontend");
+        });
     });
 
-    // Add Backend/Fullstack Specific Details
-    let yOffset = 120 + kernFunctionaliteiten.split("\n").length * 10 + 10;
-    if (projectType === "Backend" || projectType === "Fullstack") {
-        const entities = document.getElementById("entities").value || "Geen entiteiten opgegeven";
+    addCoreFeatureButton.addEventListener("click", () => {
+        const featureWrapper = document.createElement("div");
+        featureWrapper.classList.add("core-feature-wrapper");
 
-        doc.setFontSize(14);
-        doc.setFont("helvetica", "bold");
-        doc.text("Entiteiten", 10, yOffset);
-        doc.setFont("helvetica", "normal");
-        doc.setFontSize(12);
-        entities.split("\n").forEach((item, index) => {
-            doc.text(`${index + 1}. ${item.trim()}`, 10, yOffset + 10 + index * 10);
+        const newFeatureInput = document.createElement("input");
+        newFeatureInput.classList.add("core-feature", "form-textarea");
+        newFeatureInput.setAttribute("rows", "5");
+        newFeatureInput.setAttribute("placeholder", `Kernfunctionaliteit ${coreFeaturesContainer.children.length + 1}: ...`);
+
+        const removeButton = document.createElement("button");
+        removeButton.type = "button";
+        removeButton.classList.add("btn", "btn-secondary", "remove-core-feature");
+        removeButton.textContent = "Remove";
+        removeButton.addEventListener("click", () => {
+            coreFeaturesContainer.removeChild(featureWrapper);
         });
-        yOffset += entities.split("\n").length * 10 + 20;
-    }
 
-    // Add Frontend Specific Details
-    if (projectType === "Frontend") {
-        const backendType = document.getElementById("backendType").value || "Geen backend geselecteerd";
-        const otherAPIs = document.getElementById("otherAPIs").value || "Geen andere API's";
+        featureWrapper.appendChild(newFeatureInput);
+        featureWrapper.appendChild(removeButton);
+        coreFeaturesContainer.appendChild(featureWrapper);
+    });
 
-        doc.setFontSize(14);
-        doc.setFont("helvetica", "bold");
-        doc.text("Backend en Api", 10, yOffset);
-        doc.setFont("helvetica", "normal");
-        doc.setFontSize(12);
-        doc.text(`Gekozen backend: ${backendType}`, 10, yOffset + 10);
-        doc.text(`Andere API's: ${otherAPIs}`, 10, yOffset + 20);
-    }
+    // Update preview
+    const updatePreview = () => {
+        const projectName = document.getElementById("project-name").value;
+        const description = document.getElementById("description").value;
+        const coreFeatures = Array.from(document.querySelectorAll(".core-feature")).map(input => input.value).join(", ");
+        const entities = document.getElementById("entities")?.value || "";
+        const backendType = document.getElementById("backend-type")?.value || "";
+        const otherApis = document.getElementById("other-apis")?.value || "";
+        const projectType = document.querySelector("input[name='project-type']:checked")?.value;
+        preview.innerHTML = `
+      <h3 class="text-lg font-semibold">Project Preview</h3>
+      <p><strong>Naam van je applicatie:</strong> ${projectName || "N/A"}</p>
+      <p><strong>Toelichting:</strong> ${description || "N/A"}</p>
+      <p><strong>Kernfunctionaliteiten:</strong> ${coreFeatures || "N/A"}</p>
+      ${projectType === "Backend" || projectType === "Fullstack" ? `<p><strong>Entiteiten:</strong> ${entities}</p>` : ""}
+      ${projectType === "Frontend" ? `<p><strong>Backend Keuze:</strong> ${backendType}</p>` : ""}
+      ${projectType === "Frontend" ? `<p><strong>Gekozen REST API:</strong> ${otherApis}</p>` : ""}
+    `;
+    };
 
-    // Add Footer with Page Number
-    const pageCount = doc.internal.getNumberOfPages();
-    for (let i = 1; i <= pageCount; i++) {
-        doc.setPage(i);
-        doc.setFontSize(10);
-        doc.setFont("helvetica", "italic");
-        doc.text(`Pagina ${i} van ${pageCount}`, 105, 290, { align: "center" });
-    }
+    form.addEventListener("input", updatePreview);
 
-    // Save the generated PDF
-    doc.save(`${projectName || "Project"}_Voorstel.pdf`);
-}
+    // Generate PDF
+    generatePdfButton.addEventListener("click", () => {
+        const {jsPDF} = window.jspdf;
+        const doc = new jsPDF();
+
+        // Color palette
+        const colors = {
+            primary: '#da6b32', secondary: '#ba4801', text: '#333333'
+        };
+
+        // Page setup
+        const pageWidth = doc.internal.pageSize.getWidth();
+        const pageHeight = doc.internal.pageSize.getHeight();
+        const margin = 20;
+        let currentY = margin;
+
+        // Helper function to add section
+        const addSection = (title, content, isOptional = false) => {
+            if (isOptional && !content.trim()) return;
+
+            // Section title
+            doc.setTextColor(colors.primary);
+            doc.setFontSize(14);
+            doc.setFont('helvetica', 'bold');
+            doc.text(title, margin, currentY);
+            currentY += 10;
+
+            // Section content
+            doc.setTextColor(colors.text);
+            doc.setFontSize(11);
+            doc.setFont('helvetica', 'normal');
+
+            // Wrap text to fit the page
+            const splitContent = doc.splitTextToSize(content, pageWidth - (2 * margin));
+            doc.text(splitContent, margin, currentY);
+            currentY += (splitContent.length * 7) + 5;
+        };
+
+        // Add header
+        doc.setFillColor(colors.primary);
+        doc.rect(0, 0, pageWidth, 20, 'F');
+        doc.setTextColor(255, 255, 255);
+        doc.setFontSize(16);
+        doc.setFont('helvetica', 'bold');
+        // add leerlijn to this text
+        let text = 'Ideefase';
+        text = text + ' - ' + form.querySelector('input[name="project-type"]:checked')?.value || '';
+        doc.text(text, margin, 15);
+
+        // Reset for content
+        currentY = 35;
+        doc.setTextColor(colors.text);
+
+        // Add project details
+        addSection('Naam van de applicatie', form.elements['project-name'].value);
+        addSection('Project omschrijving', form.elements['description'].value);
+        addSection('Kern functionaliteiten', Array.from(document.querySelectorAll(".core-feature")).map(input => input.value).join("\n"));
+
+        // Conditionally add optional sections
+        if (form.elements['project-type'].value === "Backend" || form.elements['project-type'].value === "Fullstack") {
+            addSection('Entiteiten', form.elements['entities'].value, true);
+        }
+        if (form.elements['project-type'].value === "Frontend") {
+            addSection('Backend', form.elements['backend-type'].value, true);
+        }
+        if (form.elements['project-type'].value === "Frontend") {
+            addSection('Gekozen REST API', form.elements['other-apis'].value, true);
+        }
+        // Save the PDF
+        doc.save('project-ideation.pdf');
+    });
+
+    // Initialize preview
+    updatePreview();
+});
