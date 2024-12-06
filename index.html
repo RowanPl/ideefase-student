@@ -46,11 +46,12 @@
         </div>
         <div>
             <label for="description" class="form-label">Toelichting</label>
+            <p class="form-hint">Beschrijf hier kort wat jouw idee is. Wat is het probleem dat je wilt oplossen? Wat is de oplossing die je biedt? </p>
             <textarea id="description" class="form-textarea" rows="5" placeholder="Toelichting over het project"></textarea>
         </div>
         <div>
             <label for="core-features" class="form-label">Kernfunctionaliteiten</label>
-            <p> Beschrijf hier de belangrijkste functionaliteiten van jouw idee. Geef aan wat de applicatie moet doen, Je moet er nog minimaal 3 bij bedenken naast inloggen en registreren</p>
+            <p class="form-hint"> Beschrijf hier de belangrijkste functionaliteiten van jouw idee. Geef aan wat de applicatie moet doen, Je moet er nog minimaal 3 bij bedenken naast inloggen en registreren</p>
             <div id="core-features-container">
                 <input class="core-feature form-textarea" rows="5" placeholder="Kernfunctionaliteit 1: ...">
                 <input class="core-feature form-textarea" rows="5" placeholder="Kernfunctionaliteit 2: ...">
@@ -69,14 +70,14 @@
 
         <!-- Frontend Fields -->
         <div id="frontend-fields" class="hidden">
-            <p>Vanuit NOVI adviseren we je de<a target="_blank" href="https://novi.datavortex.nl/" class="link"> NOVI Educational Backend</a> te gebruiken. Hierin kun je de gebruikersnaam, email, wachtwoord, en profielfoto in opslaan. Er is ook een extra tekstveld beschikbaar om eigen informatie in op te slaan. Als je een specifiek idee hebt waar je meer opslagmogelijkheden voor nodig hebt, heb je de optie om een eigen <a href="https://firebase.google.com/" target="_blank" class="link"> Firebase Backend </a> op te zetten. Maar let op: deze zijn lastiger om te configureren! Het kost extra tijd en je krijgt er geen extra punten voor. Indien je de Backend leerlijn bij NOVI hebt gevolgd is het ook toegestaan om jouw eigen gemaakte Spring Boot project als backend te gebruiken. </p>
+            <p class="form-hint">Vanuit NOVI adviseren we je de<a target="_blank" href="https://novi.datavortex.nl/" class="link"> NOVI Educational Backend</a> te gebruiken. Hierin kun je de gebruikersnaam, email, wachtwoord, en profielfoto in opslaan. Er is ook een extra tekstveld beschikbaar om eigen informatie in op te slaan. Als je een specifiek idee hebt waar je meer opslagmogelijkheden voor nodig hebt, heb je de optie om een eigen <a href="https://firebase.google.com/" target="_blank" class="link"> Firebase Backend </a> op te zetten. Maar let op: deze zijn lastiger om te configureren! Het kost extra tijd en je krijgt er geen extra punten voor. Indien je de Backend leerlijn bij NOVI hebt gevolgd is het ook toegestaan om jouw eigen gemaakte Spring Boot project als backend te gebruiken. </p>
             <div>
                 <label for="backend-type" class="form-label">Backend Keuze</label>
                 <input id="backend-type" class="form-input" type="text" placeholder="Backend Keuze">
             </div>
             <div>
                 <label for="other-apis" class="form-label">Gekozen REST API('s)</label>
-                <p>NOVI heeft ook al een aantal API's in een <a href="https://github.com/hogeschoolnovi/frontend-api-list" target="_blank">API Lijst</a> gezet. </p>
+                <p class="form-hint">NOVI heeft ook al een aantal API's in een <a href="https://github.com/hogeschoolnovi/frontend-api-list" target="_blank" class="link">API Lijst</a> gezet. </p>
                 <input id="other-apis" class="form-input" type="text" placeholder="Gekozen REST API">
             </div>
         </div>
