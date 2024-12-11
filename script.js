@@ -47,6 +47,7 @@ document.addEventListener("DOMContentLoaded", () => {
         const description = document.getElementById("description").value;
         let coreFeatures = Array.from(document.querySelectorAll(".core-feature")).map(input => input.value);
         const entities = document.getElementById("entities")?.value || "";
+        const rollen = document.getElementById("rollen")?.value || "";
         const backendType = document.getElementById("backend-type")?.value || "";
         const otherApis = document.getElementById("other-apis")?.value || "";
         const projectType = document.querySelector("input[name='project-type']:checked")?.value;
@@ -60,6 +61,7 @@ document.addEventListener("DOMContentLoaded", () => {
       <p><strong>Naam van je applicatie:</strong> ${projectName || "N/A"}</p>
       <p><strong>Toelichting:</strong>${description || "N/A"}</p>
       ${projectType === "Backend" || projectType === "Fullstack" ? `<p><strong>Entiteiten:</strong> ${entities}</p>` : ""}
+        ${projectType === "Backend" || projectType === "Fullstack" ? `<p><strong>Rollen:</strong> ${rollen}</p>` : ""}
       ${projectType === "Frontend" ? `<p><strong>Backend Keuze:</strong> ${backendType}</p>` : ""}
       ${projectType === "Frontend" ? `<p><strong>Gekozen REST API:</strong> ${otherApis}</p>` : ""}
     `;
@@ -136,6 +138,9 @@ document.addEventListener("DOMContentLoaded", () => {
         if (form.elements['project-type'].value === "Backend" || form.elements['project-type'].value === "Fullstack") {
             addSection('Entiteiten', form.elements['entities'].value, true);
         }
+        if (form.elements['project-type'].value === "Backend" || form.elements['project-type'].value === "Fullstack") {
+            addSection('Rollen', form.elements['rollen'].value, true);
+        }
         if (form.elements['project-type'].value === "Frontend") {
             addSection('Backend', form.elements['backend-type'].value, true);
         }
@@ -143,7 +148,7 @@ document.addEventListener("DOMContentLoaded", () => {
             addSection('Gekozen REST API', form.elements['other-apis'].value, true);
         }
         // Save the PDF
-        doc.save('project-ideation.pdf');
+        doc.save('Ideefase.pdf');
     });
 
     // Initialize preview
