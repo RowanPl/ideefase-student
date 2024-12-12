@@ -71,12 +71,14 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Generate PDF
     generatePdfButton.addEventListener("click", () => {
-        const {jsPDF} = window.jspdf;
+        const { jsPDF } = window.jspdf;
         const doc = new jsPDF();
 
         // Color palette
         const colors = {
-            primary: '#da6b32', secondary: '#ba4801', text: '#333333'
+            primary: '#da6b32',
+            secondary: '#ba4801',
+            text: '#333333'
         };
 
         // Page setup
@@ -88,6 +90,12 @@ document.addEventListener("DOMContentLoaded", () => {
         // Helper function to add section
         const addSection = (title, content, isOptional = false) => {
             if (isOptional && !content.trim()) return;
+
+            // Check if space is sufficient, else create a new page
+            if (currentY + 15 > pageHeight - margin) {
+                doc.addPage();
+                currentY = margin;
+            }
 
             // Section title
             doc.setTextColor(colors.primary);
@@ -103,8 +111,15 @@ document.addEventListener("DOMContentLoaded", () => {
 
             // Wrap text to fit the page
             const splitContent = doc.splitTextToSize(content, pageWidth - (2 * margin));
-            doc.text(splitContent, margin, currentY);
-            currentY += (splitContent.length * 7) + 5;
+            splitContent.forEach(line => {
+                if (currentY + 7 > pageHeight - margin) {
+                    doc.addPage();
+                    currentY = margin;
+                }
+                doc.text(line, margin, currentY);
+                currentY += 7;
+            });
+            currentY += 5;
         };
 
         // Add header
@@ -113,9 +128,9 @@ document.addEventListener("DOMContentLoaded", () => {
         doc.setTextColor(255, 255, 255);
         doc.setFontSize(16);
         doc.setFont('helvetica', 'bold');
-        // add leerlijn to this text
+        // Add leerlijn to this text
         let text = 'Ideefase';
-        text = text + ' - ' + form.querySelector('input[name="project-type"]:checked')?.value || '';
+        text += ' - ' + (form.querySelector('input[name="project-type"]:checked')?.value || '');
         doc.text(text, margin, 15);
 
         // Reset for content
@@ -132,24 +147,22 @@ document.addEventListener("DOMContentLoaded", () => {
         }
         coreFeatures = coreFeatures.join("\n");
 
-
         addSection('Kernfunctionaliteiten', coreFeatures);
+
         // Conditionally add optional sections
         if (form.elements['project-type'].value === "Backend" || form.elements['project-type'].value === "Fullstack") {
             addSection('Entiteiten', form.elements['entities'].value, true);
-        }
-        if (form.elements['project-type'].value === "Backend" || form.elements['project-type'].value === "Fullstack") {
             addSection('Rollen', form.elements['roles'].value, true);
         }
         if (form.elements['project-type'].value === "Frontend") {
             addSection('Backend', form.elements['backend-type'].value, true);
-        }
-        if (form.elements['project-type'].value === "Frontend") {
             addSection('Gekozen REST API', form.elements['other-apis'].value, true);
         }
+
         // Save the PDF
         doc.save('Ideefase.pdf');
     });
+
 
     // Initialize preview
     updatePreview();
